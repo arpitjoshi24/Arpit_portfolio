@@ -1,0 +1,58 @@
+/* `.on` animations only run while this page is open. */
+
+.twinkle { animation: twinkle 3s ease-in-out infinite; }
+
+/* signposts sway on their pole */
+.plank { transform-box: fill-box; }
+.plankR { transform-origin: 0% 50%; }
+.plankL { transform-origin: 100% 50%; }
+.on.plankR { animation: swayR 4s ease-in-out infinite alternate; }
+.on.plankL { animation: swayL 4s ease-in-out infinite alternate; }
+
+/* star on top of the post */
+.finial {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.on.finial { animation: pulse 2.4s ease-in-out infinite; }
+
+/* village windows glow */
+.on.win { animation: glow 3s ease-in-out infinite alternate; }
+
+/* fireflies drift upward and blink */
+.firefly { opacity: 0; }
+.on.firefly { animation: firefly 5s ease-in-out infinite; }
+
+@keyframes twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+
+@keyframes swayR {
+  from { transform: rotate(-1.8deg); }
+  to   { transform: rotate(1.8deg); }
+}
+@keyframes swayL {
+  from { transform: rotate(1.8deg); }
+  to   { transform: rotate(-1.8deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50%      { transform: scale(1.18) rotate(12deg); }
+}
+
+@keyframes glow {
+  from { opacity: 0.55; }
+  to   { opacity: 1; }
+}
+
+@keyframes firefly {
+  0%   { opacity: 0; transform: translate(0, 0); }
+  25%  { opacity: 1; }
+  60%  { opacity: 0.8; transform: translate(10px, -22px); }
+  100% { opacity: 0; transform: translate(-6px, -44px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .on.plankR, .on.plankL, .on.finial,
+  .on.win, .on.firefly, .twinkle { animation: none; }
+  .firefly { opacity: 0.8; }
+}

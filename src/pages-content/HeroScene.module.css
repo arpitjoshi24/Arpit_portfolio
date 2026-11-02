@@ -1,0 +1,179 @@
+/* `.on` animations only run while the book is open,
+   so every time you open it the day restarts at noon. */
+
+/* ---------- window sky ---------- */
+.orbit { transform-origin: 220px 210px; }
+.on.orbit { animation: orbit 24s linear infinite; }
+
+.sunRays { transform-origin: 220px 110px; }
+.on.sunRays { animation: spin 30s linear infinite; }
+
+.night { opacity: 0; }
+.on.night { animation: nightFade 24s linear infinite; }
+
+.dusk { opacity: 0; }
+.on.dusk { animation: duskFade 24s linear infinite; }
+
+.stars { opacity: 0; }
+.on.stars { animation: starsFade 24s linear infinite; }
+
+.twinkle { animation: twinkle 3s ease-in-out infinite; }
+.on.cloud { animation: drift 14s ease-in-out infinite alternate; }
+
+/* ---------- room darkens at night ---------- */
+.wallNight { opacity: 0; }
+.on.wallNight { animation: wallFade 24s linear infinite; }
+.on.dim { animation: dim 24s linear infinite; }
+.on.leaf { animation: sway 4s ease-in-out infinite alternate; }
+
+/* ---------- the character (PNG) ---------- */
+.rig {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  container-type: inline-size;
+}
+
+.rig img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* light effects that sit on top of the PNG */
+.light {
+  position: absolute;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.lampGlow {
+  left: 5%;
+  top: 14%;
+  width: 38%;
+  height: 56%;
+  background: radial-gradient(ellipse at center, rgba(255, 200, 110, 0.75), rgba(255, 200, 110, 0) 65%);
+  opacity: 0.3;
+}
+.lampCone {
+  left: 8%;
+  top: 42%;
+  width: 36%;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255, 214, 130, 0.55), rgba(255, 214, 130, 0));
+  clip-path: polygon(38% 0, 50% 0, 100% 100%, 0 100%);
+  opacity: 0.25;
+}
+.on.lampGlow, .on.lampCone { animation: lampFade 24s linear infinite; }
+
+.screenGlow {
+  left: 42%;
+  top: 36%;
+  width: 45%;
+  height: 58%;
+  background: radial-gradient(ellipse at center, rgba(120, 190, 255, 0.7), rgba(120, 190, 255, 0) 65%);
+  opacity: 0.35;
+}
+.on.screenGlow { animation: screenFade 24s linear infinite, breathe 3s ease-in-out infinite; }
+
+/* code symbols floating up from the laptop */
+.code {
+  position: absolute;
+  left: var(--x);
+  top: 57%;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: clamp(7px, 1.5cqw, 15px);
+  color: #7fd6c9;
+  text-shadow: 0 0 6px rgba(127, 214, 201, 0.9);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+}
+.on.code { animation: floatUp 5s ease-in infinite; animation-delay: var(--d); }
+
+/* steam from the mug */
+.steam {
+  position: absolute;
+  left: var(--x);
+  top: 61%;
+  width: 1.1cqw;
+  height: 5cqw;
+  border-radius: 50%;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+  filter: blur(0.5cqw);
+  pointer-events: none;
+  opacity: 0;
+}
+.on.steam { animation: steamUp 3s ease-in-out infinite; animation-delay: var(--d); }
+
+/* ---------- keyframes (24s day: 0% = noon, 50% = midnight) ---------- */
+@keyframes orbit { to { transform: rotate(360deg); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@keyframes nightFade {
+  0%, 12% { opacity: 0; }
+  27%, 73% { opacity: 0.95; }
+  88%, 100% { opacity: 0; }
+}
+@keyframes duskFade {
+  0%, 12% { opacity: 0; }
+  22% { opacity: 1; }
+  34% { opacity: 0; }
+  66% { opacity: 0; }
+  78% { opacity: 1; }
+  88%, 100% { opacity: 0; }
+}
+@keyframes starsFade {
+  0%, 20% { opacity: 0; }
+  32%, 68% { opacity: 1; }
+  80%, 100% { opacity: 0; }
+}
+@keyframes wallFade {
+  0%, 12% { opacity: 0; }
+  27%, 73% { opacity: 0.6; }
+  88%, 100% { opacity: 0; }
+}
+@keyframes dim {
+  0%, 12% { filter: brightness(1) saturate(1); }
+  27%, 73% { filter: brightness(0.5) saturate(0.8); }
+  88%, 100% { filter: brightness(1) saturate(1); }
+}
+@keyframes lampFade {
+  0%, 12% { opacity: 0.3; }
+  27%, 73% { opacity: 1; }
+  88%, 100% { opacity: 0.3; }
+}
+@keyframes screenFade {
+  0%, 12% { opacity: 0.35; }
+  27%, 73% { opacity: 1; }
+  88%, 100% { opacity: 0.35; }
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+}
+@keyframes floatUp {
+  0% { opacity: 0; transform: translateY(0) rotate(-4deg); }
+  15% { opacity: 0.95; }
+  100% { opacity: 0; transform: translateY(-12cqw) rotate(6deg); }
+}
+@keyframes steamUp {
+  0% { opacity: 0; transform: translateY(0) scaleX(1); }
+  40% { opacity: 0.7; }
+  100% { opacity: 0; transform: translateY(-5cqw) scaleX(1.8); }
+}
+@keyframes twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+@keyframes drift { from { transform: translateX(-10px); } to { transform: translateX(10px); } }
+@keyframes sway { from { transform: rotate(-2deg); } to { transform: rotate(2deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .on.orbit, .on.sunRays, .on.night, .on.dusk, .on.stars, .on.wallNight, .on.dim,
+  .on.leaf, .on.cloud, .on.lampGlow, .on.lampCone, .on.screenGlow, .on.code,
+  .on.steam, .twinkle { animation: none; }
+}

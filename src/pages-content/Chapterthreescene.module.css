@@ -1,0 +1,92 @@
+/* `.on` animations only run while this page is open.
+   One request cycle = 10s: Send is clicked → a paper plane flies out →
+   a reply plane flies back → the 200 OK response types in. */
+
+/* background verbs drift up and fade */
+.verb { opacity: 0; }
+.on.verb { animation: verb 6s ease-in-out infinite; }
+
+/* method pill cycles GET → POST → PUT → DELETE */
+.method { opacity: 0; }
+.on.method { animation: method 10s linear infinite; }
+
+/* Send button click */
+.send {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.on.send { animation: click 10s ease-in-out infinite; }
+
+/* history rows blink in like new entries */
+.on.history { animation: history 3s ease-in-out infinite; }
+
+/* paper planes */
+.plane {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.on.plane { animation: fly 10s ease-in-out infinite; }
+
+/* response */
+.reply { opacity: 0; }
+.on.reply { animation: reveal 10s ease-out infinite; }
+.line { opacity: 0; }
+.on.line { animation: reveal 10s ease-out infinite; }
+
+/* ---------- keyframes ---------- */
+@keyframes verb {
+  0%   { opacity: 0; transform: translateY(8px); }
+  30%, 70% { opacity: 0.55; }
+  100% { opacity: 0; transform: translateY(-12px); }
+}
+
+@keyframes method {
+  0%, 24% { opacity: 1; }
+  26%, 100% { opacity: 0; }
+}
+
+@keyframes click {
+  0%, 4%    { transform: scale(1); }
+  6%        { transform: scale(0.82); }
+  10%, 100% { transform: scale(1); }
+}
+
+@keyframes history {
+  0%, 100% { opacity: 0.45; }
+  50%      { opacity: 1; }
+}
+
+/* request plane: out of Send, arcs up and away.
+   (the reply plane is flipped, so the same path brings it back in) */
+@keyframes fly {
+  0%, 3% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(-10deg);
+  }
+  6% { opacity: 1; }
+  18% { transform: translate(-30px, -26px) rotate(-30deg); }
+  30% {
+    opacity: 1;
+    transform: translate(-62px, 18px) rotate(30deg);
+  }
+  33%, 100% {
+    opacity: 0;
+    transform: translate(-62px, 18px) rotate(30deg);
+  }
+}
+
+@keyframes reveal {
+  0%, 64%  { opacity: 0; }
+  68%      { opacity: 1; }
+  92%      { opacity: 1; }
+  98%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .on.verb, .on.method, .on.send, .on.history,
+  .on.plane, .on.reply, .on.line { animation: none; }
+  .verb { opacity: 0.4; }
+  .method:first-of-type { opacity: 1; }
+  .reply, .line { opacity: 1; }
+}

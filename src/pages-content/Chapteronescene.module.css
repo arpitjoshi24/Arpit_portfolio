@@ -1,0 +1,105 @@
+/* `.on` animations only run while this page is open.
+   One cycle = 12s: a task card moves To Do → In Progress → Done,
+   confetti pops, then the card resets and it all repeats. */
+
+/* wall clock minute hand (view-box coordinates) */
+.minute { transform-origin: 100px 52px; }
+.on.minute { animation: spin 12s linear infinite; }
+
+/* docker whale bobs gently */
+.whale {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+.on.whale { animation: bob 3.4s ease-in-out infinite; }
+
+/* progress bar on the In Progress card */
+.progress {
+  transform-box: fill-box;
+  transform-origin: 0% 50%;
+  transform: scaleX(0.35);
+}
+.on.progress { animation: grow 6s ease-in-out infinite alternate; }
+
+/* the travelling card */
+.mover { transform-box: fill-box; }
+.on.mover { animation: travel 12s cubic-bezier(0.45, 0, 0.25, 1) infinite; }
+
+/* check mark appears on the card once it is Done */
+.moverTick { opacity: 0; }
+.on.moverTick { animation: tickIn 12s ease-out infinite; }
+
+/* confetti */
+.confetti {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.on.confetti { animation: pop 12s ease-out infinite; }
+
+/* deadline bell */
+.bell {
+  transform-box: fill-box;
+  transform-origin: 50% 8%;
+}
+.on.bell { animation: ring 2.6s ease-in-out infinite; }
+
+.badge {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.on.badge { animation: badge 2.6s ease-in-out infinite; }
+
+/* ---------- keyframes ---------- */
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+@keyframes grow {
+  from { transform: scaleX(0.35); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes travel {
+  0%, 12%   { transform: translate(0, 0); opacity: 1; }
+  30%, 44%  { transform: translate(84px, -32px); }
+  62%, 90%  { transform: translate(168px, -32px); opacity: 1; }
+  96%       { transform: translate(168px, -32px); opacity: 0; }
+  97%       { transform: translate(0, 0); opacity: 0; }
+  100%      { transform: translate(0, 0); opacity: 1; }
+}
+
+@keyframes tickIn {
+  0%, 60%  { opacity: 0; }
+  66%, 90% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+
+@keyframes pop {
+  0%, 60% { opacity: 0; transform: translate(0, 0) scale(0.4); }
+  64%     { opacity: 1; transform: translate(-6px, -14px) scale(1.2); }
+  78%     { opacity: 1; transform: translate(10px, 22px) scale(0.9); }
+  86%, 100% { opacity: 0; transform: translate(14px, 34px) scale(0.5); }
+}
+
+@keyframes ring {
+  0%, 60%, 100% { transform: rotate(0deg); }
+  66%  { transform: rotate(-16deg); }
+  72%  { transform: rotate(14deg); }
+  78%  { transform: rotate(-10deg); }
+  84%  { transform: rotate(6deg); }
+}
+
+@keyframes badge {
+  0%, 60%, 100% { transform: scale(1); }
+  70%           { transform: scale(1.3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .on.minute, .on.whale, .on.progress, .on.mover,
+  .on.moverTick, .on.confetti, .on.bell, .on.badge { animation: none; }
+  .progress { transform: scaleX(0.7); }
+}
