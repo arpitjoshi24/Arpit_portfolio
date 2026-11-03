@@ -1,8 +1,11 @@
+/* Same look as before, but every size is in cqw (1% of the page width),
+   so the text shrinks and grows together with the book. */
 .page {
+  container-type: inline-size;
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 1.8cqw;
 }
 
 /* hidden until the page is open, then each line rises in turn */
@@ -13,26 +16,27 @@
 }
 
 @keyframes rise {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(3cqw); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 .chapter {
   font-family: var(--font-hand), cursive;
-  font-size: clamp(0.9rem, 1.6vw, 1.3rem);
+  font-size: 4.6cqw;
+  line-height: 1;
   color: var(--orange);
 }
 
 .title {
   font-family: var(--font-title), serif;
-  font-size: clamp(1.4rem, 3.2vw, 2.5rem);
+  font-size: 7.6cqw;
   line-height: 1.05;
   color: var(--teal);
 }
 
 .p {
-  font-size: clamp(0.72rem, 1.25vw, 1rem);
-  line-height: 1.6;
+  font-size: 3cqw;
+  line-height: 1.45;
 }
 
 .p:first-of-type::first-letter {
@@ -44,23 +48,24 @@
   color: var(--orange);
 }
 
-.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.2rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 1.2cqw; margin-top: 0.4cqw; }
 
 .chip {
-  font-size: clamp(0.6rem, 1vw, 0.8rem);
+  font-size: 2.5cqw;
   padding: 0.25em 0.8em;
   border-radius: 999px;
   background: var(--paper-dark);
-  border: 1.5px solid var(--mustard);
+  border: 0.4cqw solid var(--mustard);
   color: var(--ink);
 }
 
 /* ---------- lift the flap ---------- */
 .flapWrap {
   position: relative;
-  perspective: 700px;
-  height: clamp(2.4rem, 4.4vw, 3.2rem);
-  margin-top: 0.3rem;
+  perspective: 150cqw;
+  height: 11cqw;
+  margin-top: 0.8cqw;
+  flex-shrink: 0;
 }
 
 .under {
@@ -70,34 +75,34 @@
   align-items: center;
   justify-content: center;
   background: var(--paper-dark);
-  border-radius: 8px;
-  box-shadow: inset 0 2px 6px rgba(43, 33, 24, 0.3);
+  border-radius: 2cqw;
+  box-shadow: inset 0 0.5cqw 1.6cqw rgba(43, 33, 24, 0.3);
 }
 
 .under a {
   font-family: var(--font-hand), cursive;
-  font-size: clamp(0.95rem, 1.6vw, 1.3rem);
+  font-size: 4cqw;
   color: var(--teal);
   text-decoration: underline wavy var(--orange);
-  text-underline-offset: 4px;
+  text-underline-offset: 1cqw;
 }
 
 .lid {
   position: absolute;
   inset: 0;
   border: none;
-  border-radius: 8px;
+  border-radius: 2cqw;
   background: var(--mustard);
   color: var(--ink);
   font-family: var(--font-hand), cursive;
-  font-size: clamp(0.95rem, 1.6vw, 1.3rem);
+  font-size: 4cqw;
   transform-origin: top center;
-  box-shadow: 0 3px 8px rgba(43, 33, 24, 0.3);
+  box-shadow: 0 0.8cqw 2cqw rgba(43, 33, 24, 0.3);
   transition: transform 0.8s cubic-bezier(0.34, 1.3, 0.5, 1), box-shadow 0.4s;
   background-image: repeating-linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.12) 0 2px,
-    transparent 2px 7px
+    rgba(255, 255, 255, 0.12) 0 0.5cqw,
+    transparent 0.5cqw 1.8cqw
   );
 }
 
@@ -105,16 +110,16 @@
 .lidOpen,
 .lidOpen:hover {
   transform: rotateX(-118deg);
-  box-shadow: 0 -4px 10px rgba(43, 33, 24, 0.25);
+  box-shadow: 0 -1cqw 2.5cqw rgba(43, 33, 24, 0.25);
 }
 
-.lid:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+.lid:focus-visible { outline: 0.8cqw solid var(--teal); outline-offset: 0.5cqw; }
 
 .footer {
   margin-top: auto;
   text-align: right;
   font-family: var(--font-hand), cursive;
-  font-size: clamp(1rem, 1.8vw, 1.5rem);
+  font-size: 4.8cqw;
   color: var(--orange);
 }
 

@@ -1,28 +1,32 @@
+/* Same look as before, but every size is in cqw (1% of the page width),
+   so the text shrinks and grows together with the book. */
 .page {
+  container-type: inline-size;
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 2cqw;
 }
 
 .reveal { opacity: 0; }
 
 .chapter {
   font-family: var(--font-hand), cursive;
-  font-size: clamp(0.9rem, 1.6vw, 1.3rem);
+  font-size: 4.6cqw;
+  line-height: 1;
   color: var(--orange);
 }
 
 .title {
   font-family: var(--font-title), serif;
-  font-size: clamp(1.4rem, 3.2vw, 2.5rem);
+  font-size: 7.6cqw;
   line-height: 1.05;
   color: var(--teal);
 }
 
 .p {
-  font-size: clamp(0.72rem, 1.25vw, 1rem);
-  line-height: 1.6;
+  font-size: 3cqw;
+  line-height: 1.5;
 }
 
 .p:first-of-type::first-letter {
@@ -34,14 +38,14 @@
   color: var(--orange);
 }
 
-.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.2rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 1.2cqw; margin-top: 0.6cqw; }
 
 .chip {
-  font-size: clamp(0.6rem, 1vw, 0.8rem);
+  font-size: 2.5cqw;
   padding: 0.25em 0.8em;
   border-radius: 999px;
   background: var(--paper-dark);
-  border: 1.5px solid var(--mustard);
+  border: 0.4cqw solid var(--mustard);
   color: var(--ink);
 }
 
@@ -49,6 +53,6 @@
   margin-top: auto;
   text-align: right;
   font-family: var(--font-hand), cursive;
-  font-size: clamp(1rem, 1.8vw, 1.5rem);
+  font-size: 4.8cqw;
   color: var(--orange);
 }
