@@ -1,28 +1,29 @@
 "use client";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import HeroScene from "@/pages-content/HeroScene";
 import { useGSAP } from "@gsap/react";
 import { useBookStore } from "@/store/useBookStore";
 import Page from "./Page";
 import Cover from "./Cover";
+import BackCover from "./Backcover";
+import SoundToggle from "@/components/UI/SoundToggle";
+import { playFlip, startMusic, setMuted } from "@/utils/sound";
 import styles from "./Book.module.css";
+
+import HeroScene from "@/pages-content/HeroScene";
 import OnceUponATime from "@/pages-content/OnceUponATime";
-import Toolbox from "@/pages-content/Toolbox";
-import ChapterOne from "@/pages-content/ChapterOne";
-import TheEnd from "@/pages-content/TheEnd";
-import ChapterOneScene from "@/pages-content/Chapteronescene";
 import ToolboxInventory from "@/pages-content/ToolboxInventory";
+import Toolbox from "@/pages-content/Toolbox";
+import ChapterOneScene from "@/pages-content/Chapteronescene";
+import ChapterOne from "@/pages-content/ChapterOne";
 import ChapterTwoScene from "@/pages-content/chaptertwoscene";
 import ChapterTwo from "@/pages-content/ChapterTwo";
 import ChapterThreeScene from "@/pages-content/chapterthreescene";
 import ChapterThree from "@/pages-content/ChapterThree";
 import ServicesScene from "@/pages-content/Servicescene";
 import ContactForm from "@/pages-content/Contactform";
-import BackCover from "./Backcover"; 
-gsap.registerPlugin(useGSAP);
 
-const Art = ({ label }) => <div className="art-placeholder">{label}</div>;
+gsap.registerPlugin(useGSAP);
 
 // Each sheet = a front face (right side) and a back face (left side after flipping)
 const sheets = [
@@ -35,17 +36,20 @@ const sheets = [
   { front: <ContactForm />, back: <BackCover />, backClass: styles.coverFace },
 ];
 
-
 export default function Book() {
   const root = useRef(null);
   const first = useRef(true);
+  const prevFlipped = useRef(0);
 
   const flipped = useBookStore((s) => s.flipped);
   const turning = useBookStore((s) => s.turning);
+  const muted = useBookStore((s) => s.muted);
   const { next, prev, setTotal, clearTurning } = useBookStore.getState();
   const total = sheets.length;
 
-  useEffect(() => { setTotal(total); }, [setTotal, total]);
+  useEffect(() => {
+    setTotal(total);
+  }, [setTotal, total]);
 
   // keyboard arrows
   useEffect(() => {
@@ -63,6 +67,33 @@ export default function Book() {
     const t = setTimeout(clearTurning, 1300);
     return () => clearTimeout(t);
   }, [turning, flipped, clearTurning]);
+
+  // flip sound on every page turn, music starts when the book opens
+  // flip sound on every page turn
+  useEffect(() => {
+    if (flipped === prevFlipped.current) return;
+    prevFlipped.current = flipped;
+    playFlip();
+  }, [flipped]);
+
+  // background music: try on load, then retry on the first interaction
+  useEffect(() => {
+    startMusic();
+
+    const events = ["pointerdown", "click", "keydown", "touchend"];
+    const unlock = () => {
+      startMusic();
+      events.forEach((e) => window.removeEventListener(e, unlock));
+    };
+    events.forEach((e) => window.addEventListener(e, unlock));
+
+    return () => events.forEach((e) => window.removeEventListener(e, unlock));
+  }, []);
+
+  // mute button
+  useEffect(() => {
+    setMuted(muted);
+  }, [muted]);
 
   // the actual 3D flip + centering the book
   useGSAP(
@@ -93,6 +124,8 @@ export default function Book() {
             key={i}
             front={sheet.front}
             back={sheet.back}
+            frontClass={sheet.frontClass}
+            backClass={sheet.backClass}
             zIndex={i === turning ? 100 : i < flipped ? i + 1 : total - i}
             onFront={next}
             onBack={prev}
@@ -105,6 +138,8 @@ export default function Book() {
         <span>{flipped} / {total}</span>
         <button onClick={next} disabled={flipped === total}>Next →</button>
       </div>
+
+      <SoundToggle />
     </main>
   );
 }

@@ -3,7 +3,7 @@ import styles from "./Backcover.module.css";
 // ✏️ Edit your links here
 const EMAIL = "arpitjoshi564@gmail.com";
 const GITHUB = "https://github.com/arpitjoshi24";
-const LINKEDIN = "#"; // add your LinkedIn URL
+const LINKEDIN = "https://www.linkedin.com/in/arpit-joshi-999a58282/"; // add your LinkedIn URL
 
 const RUNES = "ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾ";
 
